@@ -15,7 +15,7 @@
 			<div class="col-lg-12">
 			<div class="card">
 				<div class="card-body">
-				<?php echo "Welcome back ".$_SESSION['login_name'];   ?>
+				<?php echo "Welcome back ".($_SESSION['login_type'] == 3 ? "Dr. ".$_SESSION['login_name'].','.$_SESSION['login_name_pref'] : $_SESSION['login_name'])."!"  ?>
 									
 				</div>
 				<hr>
@@ -37,6 +37,7 @@
                                     <i class="fa fa-calendar"></i>
                                 </div>
                             </div>
+
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="index.php?page=payments">View Payments</a>
                                 <div class="small text-white">
@@ -46,73 +47,9 @@
                         </div>
                     </div>
 
+              
 
-
-
-	<!--if the user is an admin or a straff do the following-->
-    <?php if($_SESSION['login_type'] == 1 || $_SESSION['login_type'] == 2): ?>
-
-                <div class="col-md-3">
-                        <div class="card bg-success text-white mb-3">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="mr-3">
-                                        <div class="text-white-75 small">Debtors</div>
-                                        <div class="text-lg font-weight-bold">
-                                        	<?php 
-                                        	$borrowers = $conn->query("SELECT * FROM borrowers");
-                                        	echo $borrowers->num_rows > 0 ? $borrowers->num_rows : "0";
-                                        	 ?>
-                                        		
-                                    	</div>
-                                    </div>
-                                    <i class="fa fa-user-friends"></i>
-                                </div>
-                            </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="index.php?page=borrowers">View Debtors</a>
-                                <div class="small text-white">
-                                	<i class="fas fa-angle-right"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <?php endif; ?>
-
-
-<!--if the user is an admin or a straff do the following-->
-    <?php if($_SESSION['login_type'] == 1 || $_SESSION['login_type'] == 2): ?>
-
-                  <div class="col-md-3">
-                        <div class="card bg-warning text-white mb-3">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="mr-3">
-                                        <div class="text-white-75 small">Active Contracts</div>
-                                        <div class="text-lg font-weight-bold">
-                                        	<?php 
-                                        	$loans = $conn->query("SELECT * FROM loan_list where status = 2");
-                                        	echo $loans->num_rows > 0 ? $loans->num_rows : "0";
-                                        	 ?>
-                                        		
-                                    	</div>
-                                    </div>
-                                    <i class="fa fa-user-friends"></i>
-                                </div>
-                            </div>
-
-                            
-                            <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="index.php?page=loans">View Contracts List</a>
-                                <div class="small text-white">
-                                	<i class="fas fa-angle-right"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <?php endif; ?>
-
-
+                   
 
 
                      <div class="col-md-3">
@@ -135,6 +72,9 @@
                                     <i class="fa fa-user-friends"></i>
                                 </div>
                             </div>
+
+
+                            
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="index.php?page=loans">View Contract List</a>
                                 <div class="small text-white">

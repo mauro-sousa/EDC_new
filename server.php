@@ -74,7 +74,7 @@ if (isset($_POST['reg_user'])) {
   			  VALUES('$ID_num','$fname', '$middname','$lname','$cell','$address','$email','$Student_num','$datecreated','$password','$username','$dob')";
   	mysqli_query($db, $query);
     $query = "INSERT INTO users (id,doctor_id,name,address,contact,username,password,type) 
-          VALUES('$ID_num','$fname','$lname','$address','$cell','$username','$password1','2')";
+          VALUES('$ID_num','$fname','$lname','$address','$cell','$username','$password1','3')";
     mysqli_query($db, $query);
   	// $_SESSION['username'] = $username;
   	// $_SESSION['success'] = "You are now logged in";

@@ -13,6 +13,7 @@ if(isset($_GET['id'])){
 	<div class="col-lg-12">
 		<form id="manage-payment">
 			<input type="hidden" name="id" value="<?php echo isset($_GET['id']) ? $_GET['id'] : '' ?>">
+			
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
@@ -28,8 +29,17 @@ if(isset($_GET['id'])){
 						</select>
 						
 					</div>
+
+						<input type="file" name="file" size="50" />
+						<br /> <br />
+						<input type="submit" name="submit" value="Upload" />
 				</div>
 			</div>
+
+			
+			
+
+
 			<div class="row" id="fields">
 				
 			</div>
@@ -82,3 +92,30 @@ if(isset($_GET['id'])){
 		load_fields()
 	 })
 </script>
+
+<?php
+if(isset($_POST['submit'])){
+ $targetfolder = "";
+
+ $targetfolder = $targetfolder . basename( $_FILES['file']['name']) ;
+
+ $ok=1;
+
+$file_type=$_FILES['file']['type'];
+
+if ($file_type=="application/pdf" || $file_type=="image/gif" || $file_type=="image/jpeg") {
+
+ if(move_uploaded_file($_FILES['file']['tmp_name'], $targetfolder))
+
+ {
+
+ echo "The file ". basename( $_FILES['file']['name']). " is uploaded";
+
+ }
+
+ else {
+
+ echo "Problem uploading file";
+
+ }
+?>

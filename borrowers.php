@@ -7,7 +7,13 @@
 				<large class="card-title">
 					<b>Debtors List</b>
 				</large>
+
+
+				<?php if($_SESSION['login_type'] == 1 || $_SESSION['login_type'] == 2 ):?>
 				<button class="btn btn-primary btn-block col-md-2 float-right" type="button" id="new_borrower"><i class="fa fa-plus"></i> New Debtor</button>
+				<?php endif;?>
+
+
 			</div>
 			<div class="card-body">
 				<table class="table table-bordered" id="borrower-list">
@@ -28,12 +34,26 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php
-						$i = 1;
-							$qry = $conn->query("SELECT * FROM borrowers order by id desc");
-							while($row = $qry->fetch_assoc()):
 
-						 ?>
+						<!--if the user is admin or staff this will show everything--->
+						<?php 
+						if($_SESSION['login_type'] == 1 || $_SESSION['login_type'] == 2){
+						$i = 1;
+						$qry = $conn->query("SELECT * FROM borrowers order by id desc");
+						} ?>
+
+
+						<!--if the user is a student this will show only the users details -->
+						 <?php if($_SESSION['login_type'] == 3 ){						
+						$i = 1;
+						$id = $_SESSION['login_id'];
+						$qry = $conn->query("SELECT * FROM borrowers  WHERE id = '".$id."' order by id desc");
+						} ?>
+
+
+
+
+						 <?php while($row = $qry->fetch_assoc()): ?>
 						 <tr>
 						 	
 						 	<td class="text-center"><?php echo $i++ ?></td>
