@@ -19,7 +19,7 @@ $penalty = $monthly * ($plan_arr['penalty_rate']/100);
 $payments = $conn->query("SELECT * from payments where loan_id =".$loan_id);
 $paid = $payments->num_rows;
 $offset = $paid > 0 ? " offset $paid ": "";
-	$next = $conn->query("SELECT * FROM loan_schedules where loan_id = '".$loan_id."'  order by date(date_due) asc limit 1 $offset ")->fetch_assoc()['date_due'];
+$next = $conn->query("SELECT * FROM loan_schedules where loan_id = '".$loan_id."'  order by date(date_due) asc limit 1 $offset ")->fetch_assoc()['date_due'];
 $sum_paid = 0;
 while($p = $payments->fetch_assoc()){
 	$sum_paid += ($p['amount'] - $p['penalty_amount']);

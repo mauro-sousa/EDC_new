@@ -12,6 +12,7 @@
 <?php include('./db_connect.php'); ?>
 <?php 
 session_start();
+//user id of the person logged in 
 if(isset($_SESSION['login_id']))
 header("location:index.php?page=home");
 
@@ -84,9 +85,7 @@ div#login-right::before {
 
 <body>
 <nav style="font-size:1.2em;background:black;" class="navbar navbar-expand navbar-light navbar-bg">
-		<li class="list-inline-item"><a class="text-muted" href="index.php">Home</a></li>
-		<li class="list-inline-item"><a class="text-muted" href="./debtor/userlogin.php">Debtor login</a></li>
-		<li class="list-inline-item"><a class="text-muted" href="register.php">Register</a></li>          
+		<li class="list-inline-item"><a class="text-muted" href="index.php">Home</a></li>         
 			</nav>
 
   <main id="main" class=" bg-dark">

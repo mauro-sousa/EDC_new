@@ -95,7 +95,7 @@
 										</div>
 										<div class="mb-3">
 											<label class="form-label" class="form-check m-0">
-											<input type="checkbox" class="form-check-input">
+											<input type="checkbox" class="form-check-input" required>
 											<span class="form-check-label">Accept<a href="#">terms & conditions</a></span>
 											</label>
 										</div>

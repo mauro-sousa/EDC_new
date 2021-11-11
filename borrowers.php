@@ -30,7 +30,7 @@
 							<th class="text-center">Debtor</th>
 							<th class="text-center">Current Contract</th>
 							<th class="text-center">Next Payment Schedule</th>
-							<th class="text-center">Action</th>
+							<!-- <th class="text-center">Action</th> -->
 						</tr>
 					</thead>
 					<tbody>
@@ -51,8 +51,6 @@
 						} ?>
 
 
-
-
 						 <?php while($row = $qry->fetch_assoc()): ?>
 						 <tr>
 						 	
@@ -63,14 +61,17 @@
 						 		<p><small>Contact # :<b><?php echo $row['contact_no'] ?></small></b></p>
 						 		<p><small>Email :<b><?php echo $row['email'] ?></small></b></p>
 						 		<p><small>Student Number :<b><?php echo $row['student_number'] ?></small></b></p>
+								 <p><small>Date of birth :<b><?php echo $row['dob'] ?></small></b></p>
+						 		<p><small>Username :<b><?php echo $row['Username'] ?></small></b></p>
+
 						 		
 						 	</td>
 						 	<td class="">None</td>
 						 	<td class="">N/A</td>
-						 	<td class="text-center">
+						 	<!-- <td class="text-center">
 						 			<button class="btn btn-outline-primary btn-sm edit_borrower" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-edit"></i></button>
 						 			<button class="btn btn-outline-danger btn-sm delete_borrower" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-trash"></i></button>
-						 	</td>
+						 	</td> -->
 
 						 </tr>
 

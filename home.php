@@ -49,7 +49,7 @@
 
 
 
-	<!--if the user is an admin or a straff do the following-->
+	<!--if the user is an admin or a staff do the following-->
     <?php if($_SESSION['login_type'] == 1 || $_SESSION['login_type'] == 2): ?>
 
                 <div class="col-md-3">
@@ -120,11 +120,11 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="mr-3">
-                                        <div class="text-white-75 small">Total Receivable</div>
+                                        <div class="text-white-75 small">Total Receivable For IUM</div>
                                         <div class="text-lg font-weight-bold">
                                         	<?php 
                                         	$payments = $conn->query("SELECT sum(amount - penalty_amount) as total FROM payments where date(date_created) = '".date("Y-m-d")."'");
-                                        	$loans = $conn->query("SELECT sum(l.amount + (l.amount * (p.interest_percentage/100))) as total FROM loan_list l inner join loan_plan p on p.id = l.plan_id where l.status = 2");
+                                        	$loans = $conn->query("SELECT sum((l.amount + (l.amount * (p.interest_percentage/100)))*.85) as total FROM loan_list l inner join loan_plan p on p.id = l.plan_id where l.status = 2");
                                         	$loans =  $loans->num_rows > 0 ? $loans->fetch_array()['total'] : "0";
                                         	$payments =  $payments->num_rows > 0 ? $payments->fetch_array()['total'] : "0";
                                         	echo number_format($loans - $payments,2);
@@ -137,6 +137,34 @@
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="index.php?page=loans">View Contract List</a>
+                                <div class="small text-white">
+                                	<i class="fas fa-angle-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card bg-info text-white mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="mr-3">
+                                        <div class="text-white-75 small">Total Receivable For EDC</div>
+                                        <div class="text-lg font-weight-bold">
+                                        	<?php 
+                                        	$payments = $conn->query("SELECT sum(amount - penalty_amount) as total FROM payments where date(date_created) = '".date("Y-m-d")."'");
+                                        	$loans = $conn->query("SELECT sum((l.amount + (l.amount * (p.interest_percentage/100)))*.15) as total FROM loan_list l inner join loan_plan p on p.id = l.plan_id where l.status = 2");
+                                        	$loans =  $loans->num_rows > 0 ? $loans->fetch_array()['total'] : "0";
+                                        	$payments =  $payments->num_rows > 0 ? $payments->fetch_array()['total'] : "0";
+                                        	echo number_format($loans - $payments,2);
+                                        	 ?>
+                                        		
+                                    	</div>
+                                    </div>
+                                    <i class="fa fa-user-friends"></i>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
                                 <div class="small text-white">
                                 	<i class="fas fa-angle-right"></i>
                                 </div>

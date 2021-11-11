@@ -1,164 +1,122 @@
-<?php include('db_connect.php');?>
+<?php include 'db_connect.php' ?>
 
 <div class="container-fluid">
-	
 	<div class="col-lg-12">
-		<div class="row">
-			<!-- FORM Panel -->
-			<div class="col-md-4">
-			<form action="" id="manage-loan-type">
-				<div class="card">
-					<div class="card-header">
-						   Contract Type Form
-				  	</div>
-					<div class="card-body">
-							<input type="hidden" name="id">
-							<div class="form-group">
-								<label class="control-label">Type</label>
-								<textarea name="type_name" id="" cols="30" rows="2" class="form-control"></textarea>
-							</div>
-							<div class="form-group">
-								<label class="control-label">Description</label>
-								<textarea name="description" id="" cols="30" rows="2" class="form-control"></textarea>
-							</div>
-							
-							
-							
-					</div>
-							
-					<div class="card-footer">
-						<div class="row">
-							<div class="col-md-12">
-								<button class="btn btn-sm btn-primary col-sm-3 offset-md-3"> Save</button>
-								<button class="btn btn-sm btn-default col-sm-3" type="button" onclick="_reset()"> Cancel</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</form>
-			</div>
-			<!-- FORM Panel -->
+		<div class="card">
+			<div class="card-header">
+				<large class="card-title">
+					<b>IUM Student List</b>
+				</large>
 
-			<!-- Table Panel -->
-			<div class="col-md-8">
-				<div class="card">
-					<div class="card-body">
-						<table class="table table-bordered table-hover">
-							<thead>
-								<tr>
-									<th class="text-center">#</th>
-									<th class="text-center">Contract Type</th>
-									<th class="text-center">Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<?php 
-								$i = 1;
-								$types = $conn->query("SELECT * FROM loan_types order by id asc");
-								while($row=$types->fetch_assoc()):
-								?>
-								<tr>
-									<td class="text-center"><?php echo $i++ ?></td>
-									
-									<td class="">
-										 <p>Type Name: <b><?php echo $row['type_name'] ?></b></p>
-										 <p><small>Description: <b><?php echo $row['description'] ?></b></small></p>
-									</td>
-									<td class="text-center">
-										<button class="btn btn-sm btn-primary edit_ltype" type="button" data-id="<?php echo $row['id'] ?>" data-type_name="<?php echo $row['type_name'] ?>" data-description="<?php echo $row['description'] ?>" >Edit</button>
-										<button class="btn btn-sm btn-danger delete_ltype" type="button" data-id="<?php echo $row['id'] ?>">Delete</button>
-									</td>
-								</tr>
-								<?php endwhile; ?>
-							</tbody>
-						</table>
-					</div>
-				</div>
+
+				<?php if($_SESSION['login_type'] == 1 || $_SESSION['login_type'] == 2 ):?>
+				<!-- <button class="btn btn-primary btn-block col-md-2 float-right" type="button" id="new_borrower"><i class="fa fa-plus"></i> New Debtor</button> -->
+				<?php endif;?>
+
+
 			</div>
-			<!-- Table Panel -->
+			<div class="card-body">
+				<table class="table table-bordered" id="borrower-list">
+					<colgroup>
+						<col width="10%">
+						<col width="35%">
+						<col width="30%">
+						<col width="15%">
+						<col width="10%">
+					</colgroup>
+					<thead>
+						<tr> 
+							<th class="text-center">#</th>
+							<th class="text-center">Debtor</th>
+							<th class="text-center">Current Contract</th>
+							<th class="text-center">Next Payment Schedule</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<!--if the user is admin or staff this will show everything--->
+						<?php 
+						if($_SESSION['login_type'] == 1 || $_SESSION['login_type'] == 2){
+						$i = 1;
+						$qry = $conn->query("SELECT * FROM borrowers order by id desc");
+						} ?>
+
+
+						<!--if the user is a student this will show only the users details -->
+						 <?php if($_SESSION['login_type'] == 3 ){						
+						$i = 1;
+						$id = $_SESSION['login_id'];
+						$qry = $conn->query("SELECT * FROM borrowers  WHERE id = '".$id."' order by id desc");
+						} ?>
+
+
+						 <?php while($row = $qry->fetch_assoc()): ?>
+						 <tr>
+						 	
+						 	<td class="text-center"><?php echo $i++ ?></td>
+						 	<td>
+						 		<p>Name :<b><?php echo ucwords($row['lastname'].", ".$row['firstname'].' '.$row['middlename']) ?></b></p>
+						 		<p><small>Address :<b><?php echo $row['address'] ?></small></b></p>
+						 		<p><small>Contact # :<b><?php echo $row['contact_no'] ?></small></b></p>
+						 		<p><small>Email :<b><?php echo $row['email'] ?></small></b></p>
+						 		<p><small>Student Number :<b><?php echo $row['student_number'] ?></small></b></p>
+								 <p><small>Date of birth :<b><?php echo $row['dob'] ?></small></b></p>
+						 		<p><small>Username :<b><?php echo $row['Username'] ?></small></b></p>
+						 	</td>
+						 	<td class="">None</td>
+						 	<td class="">N/A</td>
+						 	<td class="text-center">
+						 			<button class="btn btn-outline-primary btn-sm edit_borrower" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-edit"></i></button>
+						 			<button class="btn btn-outline-danger btn-sm delete_borrower" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-trash"></i></button>
+									<button class="btn btn-outline-primary btn-sm edit_borrower" type="button" id="new_application"><i class="fa fa-plus"></i></button>
+						 	</td>
+
+						 </tr>
+
+						<?php endwhile; ?>
+					</tbody>
+				</table>
+			</div>
 		</div>
-	</div>	
-
+	</div>
 </div>
 <style>
-	
+	td p {
+		margin:unset;
+	}
+	td img {
+	    width: 8vw;
+	    height: 12vh;
+	}
 	td{
 		vertical-align: middle !important;
 	}
-	td p{
-		margin: unset
-	}
-	img{
-		max-width:100px;
-		max-height: :150px;
-	}
-</style>
+</style>	
 <script>
-	function _reset(){
-		$('[name="id"]').val('');
-		$('#manage-loan-type').get(0).reset();
-	}
-	
-	$('#manage-loan-type').submit(function(e){
-		e.preventDefault()
+	$('#borrower-list').dataTable()
+	$('#new_borrower').click(function(){
+		uni_modal("New borrower","manage_borrower.php",'mid-large')
+	})
+	$('.edit_borrower').click(function(){
+		uni_modal("Edit borrower","manage_borrower.php?id="+$(this).attr('data-id'),'mid-large')
+	})
+	$('.delete_borrower').click(function(){
+		_conf("Are you sure to delete this borrower?","delete_borrower",[$(this).attr('data-id')])
+	})
+	$('#new_application').click(function(){
+		// new contract was thi =>New Loan Application
+		uni_modal("New Contract Application","manage_loan.php",'mid-large')
+	})
+function delete_borrower($id){
 		start_load()
 		$.ajax({
-			url:'ajax.php?action=save_loan_type',
-			data: new FormData($(this)[0]),
-		    cache: false,
-		    contentType: false,
-		    processData: false,
-		    method: 'POST',
-		    type: 'POST',
-			success:function(resp){
-				if(resp==1){
-					alert_toast("Data successfully added",'success')
-					setTimeout(function(){
-						location.reload()
-					},1500)
-
-				}
-				else if(resp==2){
-					alert_toast("Data successfully updated",'success')
-					setTimeout(function(){
-						location.reload()
-					},1500)
-
-				}
-			}
-		})
-	})
-	$('.edit_ltype').click(function(){
-		start_load()
-		var cat = $('#manage-loan-type')
-		cat.get(0).reset()
-		cat.find("[name='id']").val($(this).attr('data-id'))
-		cat.find("[name='type_name']").val($(this).attr('data-type_name'))
-		cat.find("[name='description']").val($(this).attr('data-description'))
-		end_load()
-	})
-	$('.delete_ltype').click(function(){
-		_conf("Are you sure to delete this Contract Type?","delete_ltype",[$(this).attr('data-id')])
-	})
-	function displayImg(input,_this) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-        	$('#cimg').attr('src', e.target.result);
-        }
-
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-	function delete_ltype($id){
-		start_load()
-		$.ajax({
-			url:'ajax.php?action=delete_loan-type',
+			url:'ajax.php?action=delete_borrower',
 			method:'POST',
 			data:{id:$id},
 			success:function(resp){
 				if(resp==1){
-					alert_toast("Data successfully deleted",'success')
+					alert_toast("borrower successfully deleted",'success')
 					setTimeout(function(){
 						location.reload()
 					},1500)

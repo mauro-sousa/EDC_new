@@ -68,7 +68,7 @@
 						 	</td>
 						 	<td>
 						 		<p>Reference :<b><?php echo $row['ref_no'] ?></b></p>
-						 		<p><small>Loan type :<b><?php echo $type_arr[$row['loan_type_id']] ?></small></b></p>
+						 		<!-- <p><small>Loan type :<b><?php echo $type_arr[$row['loan_type_id']] ?></small></b></p> -->
 						 		<p><small>Plan :<b><?php echo $plan_arr[$row['plan_id']]['plan'] ?></small></b></p>
 						 		<p><small>Amount :<b><?php echo $row['amount'] ?></small></b></p>
 						 		<p><small>Total Payable Amount :<b><?php echo number_format($monthly * $plan_arr[$row['plan_id']]['months'],2) ?></small></b></p>
@@ -93,9 +93,9 @@
 						 	<td class="text-center">
 						 		<?php if($row['status'] == 0): ?>
 						 			<span class="badge badge-warning">For Approval</span>
-						 		<?php elseif($row['status'] == 1): ?>
+						 		<?php elseif($row['status'] == 2): ?>
 						 			<span class="badge badge-info">Approved</span>
-					 			<?php elseif($row['status'] == 2): ?>
+					 			<?php elseif($row['status'] == 1): ?>
 						 			<span class="badge badge-primary">Released</span>
 					 			<?php elseif($row['status'] == 3): ?>
 						 			<span class="badge badge-success">Completed</span>
@@ -132,7 +132,7 @@
 <script>
 	$('#loan-list').dataTable()
 	$('#new_application').click(function(){
-		uni_modal("New Loan Application","manage_loan.php",'mid-large')
+		uni_modal("New Contract Application","manage_loan.php",'mid-large')
 	})
 	$('.edit_loan').click(function(){
 		uni_modal("Edit Loan","manage_loan.php?id="+$(this).attr('data-id'),'mid-large')

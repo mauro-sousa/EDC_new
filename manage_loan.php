@@ -7,6 +7,14 @@ foreach($qry->fetch_array() as $k => $v){
 }
 }
 ?>
+<head>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+		<script type="text/javascript">
+		(function() {
+		emailjs.init("user_ix24sNL9wAfLPZCoZPcWb");
+		})();
+		</script>
+</head>
 <div class="container-fluid">
 	<div class="col-lg-12">
 	<form action="" id="loan-application">
@@ -20,11 +28,18 @@ foreach($qry->fetch_array() as $k => $v){
 				<select name="borrower_id" id="borrower_id" class="custom-select browser-default select2">
 					<option value=""></option>
 						<?php while($row = $borrower->fetch_assoc()): ?>
-							<option value="<?php echo $row['id'] ?>" <?php echo isset($borrower_id) && $borrower_id == $row['id'] ? "selected" : '' ?>><?php echo $row['name'] . ' | Student Number:'.$row['student_number'] ?></option>
+							<option value="<?php echo $row['id'] ?>" <?php echo isset($borrower_id) && $borrower_id == $row['id'] ? "selected" : '' ?>><?php echo $row['name'] . ' | Student Number:'.$row['student_number'] .' | '.$row['email'] ?>
+						</option>
 						<?php endwhile; ?>
 				</select>
 			</div>
-			<div class="col-md-6">
+
+			<div class="form-group col-md-6">
+			<label class="control-label">Debt Amount</label>
+			<input type="number" name="amount" class="form-control text-right" step="any" id="debtAmount" value="<?php echo isset($amount) ? $amount : '' ?>">
+		</div>
+
+			<!-- <div class="col-md-6">
 				<label class="control-label">Contract Type</label>
 				<?php
 				$type = $conn->query("SELECT * FROM loan_types order by `type_name` desc ");
@@ -35,7 +50,7 @@ foreach($qry->fetch_array() as $k => $v){
 							<option value="<?php echo $row['id'] ?>" <?php echo isset($loan_type_id) && $loan_type_id == $row['id'] ? "selected" : '' ?>><?php echo $row['type_name'] ?></option>
 						<?php endwhile; ?>
 				</select>
-			</div>
+			</div> -->
 			
 		</div>
 
@@ -45,7 +60,7 @@ foreach($qry->fetch_array() as $k => $v){
 				<?php
 				$plan = $conn->query("SELECT * FROM loan_plan order by `months` desc ");
 				?>
-				<select name="plan_id" id="plan_id" class="custom-select browser-default select2">
+				<select name="plan_id" id="plan_id" class="custom-select browser-default select2" required>
 					<option value=""></option>
 						<?php while($row = $plan->fetch_assoc()): ?>
 							<option value="<?php echo $row['id'] ?>" <?php echo isset($plan_id) && $plan_id == $row['id'] ? "selected" : '' ?> data-months="<?php echo $row['months'] ?>" data-interest_percentage="<?php echo $row['interest_percentage'] ?>" data-penalty_rate="<?php echo $row['penalty_rate'] ?>"><?php echo $row['months'] . ' month/s [ '.$row['interest_percentage'].'%, '.$row['penalty_rate'].'% ]' ?></option>
@@ -53,9 +68,10 @@ foreach($qry->fetch_array() as $k => $v){
 				</select>
 				<small>months [ interest%,penalty% ]</small>
 			</div>
-		<div class="form-group col-md-6">
-			<label class="control-label">Debt Amount</label>
-			<input type="number" name="amount" class="form-control text-right" step="any" id="" value="<?php echo isset($amount) ? $amount : '' ?>">
+			<!-- debt amount was here -->
+			<div class="form-group col-md-2 offset-md-2 .justify-content-center">
+			<label class="control-label">&nbsp;</label>
+			<button class="btn btn-primary btn-sm btn-block align-self-end" type="button" id="calculate">Calculate</button>
 		</div>
 		</div>
 		<div class="row">
@@ -64,10 +80,7 @@ foreach($qry->fetch_array() as $k => $v){
 			<textarea name="purpose" id="" cols="30" rows="2" class="form-control"><?php echo isset($purpose) ? $purpose : '' ?></textarea>
 		</div>
 		
-		<div class="form-group col-md-2 offset-md-2 .justify-content-center">
-			<label class="control-label">&nbsp;</label>
-			<button class="btn btn-primary btn-sm btn-block align-self-end" type="button" id="calculate">Calculate</button>
-		</div>
+
 		</div>
 		<div id="calculation_table">
 			
@@ -78,9 +91,9 @@ foreach($qry->fetch_array() as $k => $v){
 				<label class="control-label">&nbsp;</label>
 				<select class="custom-select browser-default" name="status">
 					<option value="0" <?php echo $status == 0 ? "selected" : '' ?>>For Approval</option>
-					<option value="1" <?php echo $status == 1 ? "selected" : '' ?>>Approved</option>
+					<option value="1" <?php echo $status == 1 ? "selected" : '' ?>>Released</option>
 					<?php if($status !='4' ): ?>
-					<option value="2" <?php echo $status == 2 ? "selected" : '' ?>>Released</option>
+					<option value="2" <?php echo $status == 2 ? "selected" : '' ?>>Approved</option>
 					<?php endif ?>
 					<?php if($status =='2' ): ?>
 					<option value="3" <?php echo $status == 3 ? "selected" : '' ?>>Complete</option>
@@ -96,7 +109,7 @@ foreach($qry->fetch_array() as $k => $v){
 		<div id="row-field">
 			<div class="row ">
 				<div class="col-md-12 text-center">
-					<button class="btn btn-primary btn-sm " >Save</button>
+					<button class="btn btn-primary btn-sm">Save</button>
 					<button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -158,6 +171,20 @@ foreach($qry->fetch_array() as $k => $v){
 		if('<?php echo isset($_GET['id']) ?>' == 1)
 			calculate()
 	})
+	var debtAmount = document.getElementById('debtAmount').value;
+	function sendmail(){
+		var tempParams={
+		to_name:$row['name'],
+		applicant_email:$row['email'],
+		debtAmount:debtAmount,
+		};
+		emailjs.send('service_vvzaw0o', 'template_ev8b3ai', tempParams)
+		.then(function(res) {
+		console.log('SUCCESS!', res.status, res.text);
+		}, function(error) {
+		console.log('FAILED...', error);
+		});
+	}
 </script>
 <style>
 	#uni_modal .modal-footer{

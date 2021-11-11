@@ -31,15 +31,22 @@
 						</tr>
 					</thead>
 					<tbody>
+
+
 						<?php
 							
 							$i=1;
+
+							$id = $_SESSION['login_id'];
 							
-							$qry = $conn->query("SELECT p.*,l.ref_no,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no, b.address from payments p inner join loan_list l on l.id = p.loan_id inner join borrowers b on b.id = l.borrower_id  order by p.id asc");
+							$qry = $conn->query("SELECT p.*,l.ref_no,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no, b.address 
+							from payments p inner join loan_list l on l.id = p.loan_id inner join borrowers b on b.id = l.borrower_id 
+							WHERE `borrower_id` = ".$id." order by p.id asc");
 							while($row = $qry->fetch_assoc()):
 								
 
 						 ?>
+
 						 <tr>
 						 	
 						 	<td class="text-center"><?php echo $i++ ?></td>

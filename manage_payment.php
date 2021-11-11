@@ -21,7 +21,9 @@ if(isset($_GET['id'])){
 						<select name="loan_id" id="" class="custom-select browser-default select2">
 							<option value=""></option>
 							<?php 
-							$loan = $conn->query("SELECT * from loan_list where status =2 ");
+							$id = intval($_SESSION['login_id']);
+
+							$loan = $conn->query("SELECT * FROM `loan_list` WHERE `borrower_id`= $id ;");
 							while($row=$loan->fetch_assoc()):
 							?>
 							<option value="<?php echo $row['id'] ?>" <?php echo isset($loan_id) && $loan_id == $row['id'] ? "selected" : '' ?>><?php echo $row['ref_no'] ?></option>
@@ -32,7 +34,7 @@ if(isset($_GET['id'])){
 
 						<input type="file" name="file" size="50" />
 						<br /> <br />
-						<input type="submit" name="submit" value="Upload" />
+						<input type="submit" name="submit" value="Upload proof of payment" />
 				</div>
 			</div>
 
@@ -95,7 +97,7 @@ if(isset($_GET['id'])){
 
 <?php
 if(isset($_POST['submit'])){
- $targetfolder = "";
+ $targetfolder = "\files/";
 
  $targetfolder = $targetfolder . basename( $_FILES['file']['name']) ;
 
@@ -117,5 +119,5 @@ if ($file_type=="application/pdf" || $file_type=="image/gif" || $file_type=="ima
 
  echo "Problem uploading file";
 
- }
+ }}}
 ?>

@@ -56,6 +56,19 @@ if(isset($_GET['id'])){
 						<input type="text" class="form-control" name="student_number" value="<?php echo isset($student_number) ? $student_number : '' ?>">
 					</div>
 				</div>
+				<div class="col-md-5">
+					<div class="">
+						<label for="">Date of Birth</label>
+						<input type="text" class="form-control" name="student_number" value="<?php echo isset($dob) ? $dob : '' ?>">
+					</div>
+				</div>
+				<div class="col-md-5">
+					<div class="">
+						<label for="">Username</label>
+						<input type="text" class="form-control" name="student_number" value="<?php echo isset($Username) ? $Username : '' ?>">
+					</div>
+				</div>
+
 			</div>
 		</form>
 	</div>

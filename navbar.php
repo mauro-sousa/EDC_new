@@ -14,8 +14,8 @@
 				
 				<!--if the user is an admin or a straff do the following-->
 				<?php if($_SESSION['login_type'] == 1 || $_SESSION['login_type'] == 2): ?>
+				<a href="index.php?page=loan_type" class="nav-item nav-loan_type"><span class='icon-field'><i class="fa fa-th-list"></i></span> Students accounts</a>		
 				<a href="index.php?page=plan" class="nav-item nav-plan"><span class='icon-field'><i class="fa fa-list-alt"></i></span> Debt Plans</a>	
-				<a href="index.php?page=loan_type" class="nav-item nav-loan_type"><span class='icon-field'><i class="fa fa-th-list"></i></span> Debt Type</a>		
 				<?php endif; ?>
 
 				<!--if the use is an admin-->

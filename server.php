@@ -32,7 +32,7 @@ if (isset($_POST['reg_user'])) {
   $password2 = mysqli_real_escape_string($db, $_POST['password2']);
   $address  = mysqli_real_escape_string($db, $_POST['address']);
   $cell = mysqli_real_escape_string($db, $_POST['cell']);
-  $datecreated= getdate();
+  $datecreated= date("d-m-Y");
   // form validation: ensure that the form is correctly filled ...
   // by adding (array_push()) corresponding error unto $errors array
   if (empty($username)) { array_push($errors, "Username is required"); }
