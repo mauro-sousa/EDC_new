@@ -1,5 +1,6 @@
 <?php 
 include('db_connect.php');
+include('header.php');
 if(isset($_GET['id'])){
 $qry = $conn->query("SELECT * FROM loan_list where id = ".$_GET['id']);
 foreach($qry->fetch_array() as $k => $v){
@@ -8,12 +9,7 @@ foreach($qry->fetch_array() as $k => $v){
 }
 ?>
 <head>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-		<script type="text/javascript">
-		(function() {
-		emailjs.init("user_ix24sNL9wAfLPZCoZPcWb");
-		})();
-		</script>
+
 </head>
 <div class="container-fluid">
 	<div class="col-lg-12">
@@ -60,7 +56,7 @@ foreach($qry->fetch_array() as $k => $v){
 				<?php
 				$plan = $conn->query("SELECT * FROM loan_plan order by `months` desc ");
 				?>
-				<select name="plan_id" id="plan_id" class="custom-select browser-default select2" required>
+				<select name="plan_id" id="plan_id" class="custom-select browser-default select2">
 					<option value=""></option>
 						<?php while($row = $plan->fetch_assoc()): ?>
 							<option value="<?php echo $row['id'] ?>" <?php echo isset($plan_id) && $plan_id == $row['id'] ? "selected" : '' ?> data-months="<?php echo $row['months'] ?>" data-interest_percentage="<?php echo $row['interest_percentage'] ?>" data-penalty_rate="<?php echo $row['penalty_rate'] ?>"><?php echo $row['months'] . ' month/s [ '.$row['interest_percentage'].'%, '.$row['penalty_rate'].'% ]' ?></option>
@@ -93,7 +89,7 @@ foreach($qry->fetch_array() as $k => $v){
 					<option value="0" <?php echo $status == 0 ? "selected" : '' ?>>For Approval</option>
 					<option value="1" <?php echo $status == 1 ? "selected" : '' ?>>Released</option>
 					<?php if($status !='4' ): ?>
-					<option value="2" <?php echo $status == 2 ? "selected" : '' ?>>Approved</option>
+					<option value="2" <?php echo $status == 2 ? "selected" : ''  ?>>Approved</option>
 					<?php endif ?>
 					<?php if($status =='2' ): ?>
 					<option value="3" <?php echo $status == 3 ? "selected" : '' ?>>Complete</option>
@@ -109,7 +105,7 @@ foreach($qry->fetch_array() as $k => $v){
 		<div id="row-field">
 			<div class="row ">
 				<div class="col-md-12 text-center">
-					<button class="btn btn-primary btn-sm">Save</button>
+					<button class="btn btn-primary btn-sm" id="#sendmail">Save</button>
 					<button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -125,6 +121,9 @@ foreach($qry->fetch_array() as $k => $v){
 	})
 	$('#calculate').click(function(){
 		calculate()
+	})
+	$('#sendmail').click(function(){
+		sendmail()
 	})
 	
 

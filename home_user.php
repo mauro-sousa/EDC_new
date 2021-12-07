@@ -15,7 +15,7 @@
 			<div class="col-lg-12">
 			<div class="card">
 				<div class="card-body">
-				<?php echo "Welcome back ".($_SESSION['login_type'] == 3 ? "Dr. ".$_SESSION['login_name'].','.$_SESSION['login_name_pref'] : $_SESSION['login_name'])."!"  ?>
+				<?php echo "Welcome ".($_SESSION['login_type'] == 3 ? "Dr. ".$_SESSION['login_name'].','.$_SESSION['login_name_pref'] : $_SESSION['login_name'])."!"  ?>
 									
 				</div>
 				<hr>

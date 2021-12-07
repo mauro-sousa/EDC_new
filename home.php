@@ -15,11 +15,14 @@
 			<div class="col-lg-12">
 			<div class="card">
 				<div class="card-body">
-				<?php echo "Welcome back ".$_SESSION['login_name'];   ?>
+				<?php echo "Hi there, ".$_SESSION['login_name']."!";   ?>
 									
 				</div>
 				<hr>
 				<div class="row ml-2 mr-2">
+
+                	<!--if the user is an admin or a staff do the following-->
+                    <?php if($_SESSION['login_type'] == 3): ?>
 				<div class="col-md-3">
                         <div class="card bg-primary text-white mb-3">
                             <div class="card-body">
@@ -47,6 +50,37 @@
                     </div>
 
 
+                    <div class="col-md-3">
+                        <div class="card bg-info text-white mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="mr-3">
+                                        <div class="text-white-75 small">Total Amount Payable</div>
+                                        <div class="text-lg font-weight-bold">
+                                        	<?php 
+                                            $id = $_SESSION['login_id'];
+                                        	$paymentDue = $conn->query("SELECT amount as payable FROM loan_list where borrower_id = $id");
+                                        	// $loans = $conn->query("SELECT sum(p.amount + p.penalty_amount) as total FROM payments p inner join borrowers b on b.borrower_id = p.payee where l.status = 2");
+                                        	// $loans =  $loans->num_rows > 0 ? $loans->fetch_array()['total'] : "0";
+                                        	$paymentDue =  $paymentDue->num_rows > 0 ? $paymentDue->fetch_array()['payable'] : "0";
+                                        	echo number_format($paymentDue);
+                                        	 ?>
+                                        		
+                                    	</div>
+                                    </div>
+                                    <i class="fa fa-dollar-sign"></i>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <!-- <a class="small text-white stretched-link" href="index.php?page=loans">View Contract List</a> -->
+                                <div class="small text-white">
+                                	<i class="fas fa-angle-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php endif; ?>
 
 
 	<!--if the user is an admin or a staff do the following-->
@@ -57,7 +91,7 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="mr-3">
-                                        <div class="text-white-75 small">Debtors</div>
+                                        <div class="text-white-75 small">IUM Students</div>
                                         <div class="text-lg font-weight-bold">
                                         	<?php 
                                         	$borrowers = $conn->query("SELECT * FROM borrowers");
@@ -70,7 +104,7 @@
                                 </div>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="index.php?page=borrowers">View Debtors</a>
+                                <a class="small text-white stretched-link" href="index.php?page=borrowers">View IUM Students</a>
                                 <div class="small text-white">
                                 	<i class="fas fa-angle-right"></i>
                                 </div>
@@ -80,7 +114,7 @@
                     <?php endif; ?>
 
 
-<!--if the user is an admin or a straff do the following-->
+<!--if the user is an admin or a staff do the following-->
     <?php if($_SESSION['login_type'] == 1 || $_SESSION['login_type'] == 2): ?>
 
                   <div class="col-md-3">
@@ -88,7 +122,7 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="mr-3">
-                                        <div class="text-white-75 small">Active Contracts</div>
+                                        <div class="text-white-75 small">Students With Active Contracts</div>
                                         <div class="text-lg font-weight-bold">
                                         	<?php 
                                         	$loans = $conn->query("SELECT * FROM loan_list where status = 2");
@@ -110,7 +144,7 @@
                             </div>
                         </div>
                     </div>
-                    <?php endif; ?>
+                    
 
 
 
@@ -132,7 +166,7 @@
                                         		
                                     	</div>
                                     </div>
-                                    <i class="fa fa-user-friends"></i>
+                                    <i class="fa fa-dollar-sign"></i>
                                 </div>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
@@ -161,7 +195,7 @@
                                         		
                                     	</div>
                                     </div>
-                                    <i class="fa fa-user-friends"></i>
+                                    <i class="fa fa-dollar-sign"></i>
                                 </div>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
@@ -171,7 +205,7 @@
                             </div>
                         </div>
                     </div>
-
+                    <?php endif; ?>
 				</div>
 			</div>
 			
