@@ -47,7 +47,7 @@
         pay monthly if you sign contract with us</h2><br>
         <p>Debt amount: <input id="amount" type="number" min="1" max="100000" onchange="computeLoan()"> N$ </p>
 <p>Interest rate: <input id="interest_rate" type="number" min="0" max="10" value="15" step=".1" onchange="computeLoan()" disabled> % </p>
-<p>Months: <input id="months" type="number" min="1" max="72" value="1" step="1" onchange="computeLoan()"> </p>
+<p>Months: <input id="months" type="number" min="1" max="12" value="12" step="1" disabled onchange="computeLoan()"> </p>
 <h2 id="payment"></h2>
         <br>
      

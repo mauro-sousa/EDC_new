@@ -22,13 +22,16 @@ if(isset($_GET['id'])){
 							<option value=""></option>
 							<?php 
 							$id = intval($_SESSION['login_id']);
-							$paidByDebtor = $conn->query("SELECT sum(p.amount + p.penalty_amount) as total FROM payments p inner join loan_list ll on ll.id = p.loan_id where ll.borrower_id = $id");
-							$loan = $conn->query("SELECT * FROM `loan_list`"); 
+							// $logged = $conn->query("SELECT * FROM `users` where id = $id"); 
+							// $loan = $conn->query("SELECT * FROM borrowers b inner join loan_list ll 
+							// on ll.borrower_id= b.id where borrower_id = $id");
+							$loan = $conn->query("SELECT * FROM `loan_list` where `borrower_id` = $id"); 
+							// where borrower_id = $id
 							while($row=$loan->fetch_assoc()):
 							?>
 							<option value="<?php echo $row['id'] ?>" <?php echo isset($loan_id) && $loan_id == $row['id'] ? "selected" : '' ?>><?php echo $row['ref_no'] ?></option>
 							<?php endwhile; 
-							// endif;?>
+							?>
 						</select>
 					</div>
 

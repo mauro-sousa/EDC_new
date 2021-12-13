@@ -11,6 +11,7 @@ $loan = $conn->query("SELECT l.*,concat(b.lastname,', ',b.firstname,' ',b.middle
 foreach($loan->fetch_array() as $k => $v){
 	$meta[$k] = $v;
 }
+
 $type_arr = $conn->query("SELECT * FROM loan_types where id = '".$meta['loan_type_id']."' ")->fetch_array();
 
 $plan_arr = $conn->query("SELECT *,concat(months,' month/s [ ',interest_percentage,'%, ',penalty_rate,' ]') as plan FROM loan_plan where id  = '".$meta['plan_id']."' ")->fetch_array();
@@ -33,7 +34,7 @@ while($p = $payments->fetch_assoc()){
 		<div class="form-group">
 			<label for="">Payee</label>
 			<input name="payee" class="form-control" required="" value="<?php echo isset($payee) ? $payee : (isset($meta['name']) ? $meta['name'] : '') ?>">
-		</div>
+			</div>
 	</div>
 	
 </div>

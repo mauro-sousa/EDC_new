@@ -105,7 +105,22 @@ foreach($qry->fetch_array() as $k => $v){
 		<div id="row-field">
 			<div class="row ">
 				<div class="col-md-12 text-center">
-					<button class="btn btn-primary btn-sm" id="#sendmail">Save</button>
+					<button class="btn btn-primary btn-sm" onclick="sendmail()">Save</button>
+						<!-- // sendmail(
+						// 	$to_email = $row['email'];
+						// 	$subject = "EDC Contract alert";
+						// 	$body = "Hi, This is an email to alert you that you contract with the 
+						// 	Effective Debt Collector has been successfully approved and created.
+						// 	If this email indicates a mistake, contact us on: 0857012971";
+						// 	$headers = "From: sender email";
+
+						// 	if (mail($to_email, $subject, $body, $headers)) {
+						// 		echo "Email successfully sent to $to_email...";
+						// 	} else {
+						// 		echo "Email sending failed...";
+						// 	}
+						// ) -->
+							
 					<button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -171,19 +186,47 @@ foreach($qry->fetch_array() as $k => $v){
 			calculate()
 	})
 	var debtAmount = document.getElementById('debtAmount').value;
-	function sendmail(){
-		var tempParams={
-		to_name:$row['name'],
-		applicant_email:$row['email'],
-		debtAmount:debtAmount,
-		};
-		emailjs.send('service_vvzaw0o', 'template_ev8b3ai', tempParams)
-		.then(function(res) {
-		console.log('SUCCESS!', res.status, res.text);
-		}, function(error) {
-		console.log('FAILED...', error);
-		});
-	}
+	// function sendmail(){
+	// 	var tempParams={
+	// 	to_name:$row['name'],
+	// 	applicant_email:$row['email'],
+	// 	debtAmount:debtAmount,
+	// 	};
+	// 	emailjs.send('service_vvzaw0o', 'template_ev8b3ai', tempParams)
+	// 	.then(function(res) {
+	// 	console.log('SUCCESS!', res.status, res.text);
+	// 	}, function(error) {
+	// 	console.log('FAILED...', error);
+	// 	});
+	// }
+</script>
+<script>
+	var nodemailer = require('nodemailer');
+
+sendmail(); {
+	var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'maurodesousa94@gmail.com',
+    pass: 'Domingos1994'
+  }
+});
+
+var mailOptions = {
+  from: 'maurodesousa94@gmail.com',
+  to: 'maurodesousa94@hotmail.com',
+  subject: 'Sending Email using Node.js',
+  text: 'That was easy!'
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
+}
 </script>
 <style>
 	#uni_modal .modal-footer{

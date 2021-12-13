@@ -2,7 +2,6 @@
   <meta content="" name="keywords">
 
   
-
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
     <link rel="stylesheet" href="assets/font-awesome/css/all.min.css">
@@ -41,11 +40,11 @@
     <script type="text/javascript" src="assets/font-awesome/js/all.min.js"></script>
   <script type="text/javascript" src="assets/js/jquery-te-1.4.0.min.js" charset="utf-8"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-		<script type="text/javascript">
-		(function() {
-		emailjs.init("user_ix24sNL9wAfLPZCoZPcWb");
-		})();
-		</script>
+<script type="text/javascript">
+// (function() {
+// emailjs.init("user_ix24sNL9wAfLPZCoZPcWb");
+// })();
+</script>
 
 <!------ Include the above in your HEAD tag ---------->
 

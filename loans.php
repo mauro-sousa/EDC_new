@@ -75,7 +75,7 @@
 						 		<p><small>Monthly Payable Amount: <b><?php echo number_format($monthly,2) ?></small></b></p>
 						 		<p><small>Overdue Payable Amount: <b><?php echo number_format($penalty,2) ?></small></b></p>
 						 		<?php if($row['status'] == 2 || $row['status'] == 3): ?>
-						 		<p><small>Date Released: <b><?php echo date("M d, Y",strtotime($row['date_released'])) ?></small></b></p>
+						 		<p><small>Approval Date: <b><?php echo date("M d, Y",strtotime($row['date_released'])) ?></small></b></p>
 						 		<?php endif; ?>
 						 	</td>
 						 	<td>
